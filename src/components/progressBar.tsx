@@ -14,7 +14,7 @@ export default function ProgressbarComponent({
   const totalhours = Math.round(timeSinceStart / (1000 * 3600))
   const currentTime = new Date(minimumTimestamp + timeSinceStart).toString()
   return (
-    <div className="bg-zinc-200 px-2 py-4 w-full">
+    <div className="bg-zinc-200 px-2 py-4 w-full sm:text-sm">
       <Progress value={(100 * timeSinceStart) / totalDuration} />
       <div className="flex flex-row pt-4">
         <div>

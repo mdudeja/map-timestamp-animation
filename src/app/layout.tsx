@@ -5,8 +5,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Timeline Animation",
-  description: "SC Judgment #MarriageEqualirt",
+  title: "The signatures as they came: time and location",
+  description: "SC Judgment on #MarriageEquality #LGBTQIA",
 }
 
 export default function RootLayout({
