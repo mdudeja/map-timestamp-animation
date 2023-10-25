@@ -15,6 +15,8 @@ export function getAnimationSpeed() {
 
   const speed = duration / defaultToPlayDuration
 
+  console.log("speed", speed)
+
   return {
     speed: Math.round(speed),
     minimumTimestamp,
