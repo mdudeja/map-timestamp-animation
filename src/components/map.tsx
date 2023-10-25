@@ -9,54 +9,36 @@ import { getAnimationSpeed } from "../lib/otherutils/AnimationSpeed"
 import ProgressbarComponent from "./progressBar"
 
 export type LocationsToShow = {
-  iteration: number
   data: any[]
-  lastIdx: number
 }
 
+const as = getAnimationSpeed()
+const { speed, mints, duration } = as
+
 export default function Map() {
-  const { speed, minimumTimestamp, duration } = getAnimationSpeed()
   const [icons, setIcons] = useState<Icon[]>([])
+  const [iteration, setIteration] = useState(0)
 
   const [locationsToShow, setLocationsToShow] = useReducer(
     (
       state: {
-        iteration: number
         data: any[]
-        lastIdx: number
       },
       action: {
-        minimumTimestamp: number
-        speed: number
-        lastIdx: number
+        iteration: number
       }
     ) => {
-      const tillTimestamp =
-        action.minimumTimestamp + (state.iteration + 1) * action.speed * 0.25
+      const tillTimestamp = mints + (action.iteration + 1) * speed * 250
       const selectedLocations = locations.filter(
         (l) => l && l.timestamp <= tillTimestamp
       )
 
-      if (selectedLocations.length < locations.length) {
-        setTimeout(() => {
-          setLocationsToShow({
-            minimumTimestamp: action.minimumTimestamp,
-            speed: action.speed,
-            lastIdx: state.data.length,
-          })
-        }, 250)
-      }
-
       return {
-        iteration: state.iteration + 1,
         data: selectedLocations,
-        lastIdx: action.lastIdx,
       }
     },
     {
-      iteration: 0,
       data: [],
-      lastIdx: 0,
     }
   )
 
@@ -90,22 +72,35 @@ export default function Map() {
   }, [setIcons])
 
   useEffect(() => {
-    setLocationsToShow({
-      minimumTimestamp,
-      speed,
-      lastIdx: 0,
-    })
-  }, [setLocationsToShow, minimumTimestamp, speed])
+    const interval = setInterval(() => {
+      setIteration(iteration + 1)
+      setLocationsToShow({
+        iteration,
+      })
+    }, 250)
+
+    if (locationsToShow.data.length >= locations.length) {
+      clearInterval(interval)
+    }
+
+    return () => clearInterval(interval)
+  }, [
+    setLocationsToShow,
+    setIteration,
+    locationsToShow.data.length,
+    iteration,
+    locations.length,
+  ])
 
   return (
     <div className="h-full w-full mx-auto">
       {icons.length && (
         <>
           <ProgressbarComponent
-            totalDuration={duration * 1000}
-            timeSinceStart={locationsToShow.iteration * speed * 0.25}
+            totalDuration={duration}
+            timeSinceStart={iteration * speed * 250}
             totalSigs={locationsToShow.data.length}
-            minimumTimestamp={minimumTimestamp}
+            minimumTimestamp={mints}
           />
           <MapContainer
             center={[20.593, 78.9629]}
