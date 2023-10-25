@@ -95,12 +95,18 @@ export default function Map() {
       speed,
       lastIdx: 0,
     })
-  }, [setLocationsToShow])
+  }, [setLocationsToShow, minimumTimestamp, speed])
 
   return (
-    <div className="h-5/6 w-3/4 mx-auto my-6">
+    <div className="h-full w-full mx-auto">
       {icons.length && (
         <>
+          <ProgressbarComponent
+            totalDuration={duration * 1000}
+            timeSinceStart={locationsToShow.iteration * speed * 0.25}
+            totalSigs={locationsToShow.data.length}
+            minimumTimestamp={minimumTimestamp}
+          />
           <MapContainer
             center={[20.593, 78.9629]}
             zoom={
@@ -120,12 +126,6 @@ export default function Map() {
               locationsToShow={locationsToShow}
             />
           </MapContainer>
-          <ProgressbarComponent
-            totalDuration={duration * 1000}
-            timeSinceStart={locationsToShow.iteration * speed * 0.25}
-            totalSigs={locationsToShow.data.length}
-            minimumTimestamp={minimumTimestamp}
-          />
         </>
       )}
     </div>

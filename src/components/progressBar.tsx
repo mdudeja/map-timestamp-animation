@@ -14,7 +14,7 @@ export default function ProgressbarComponent({
   const totalhours = Math.round(timeSinceStart / (1000 * 3600))
   const currentTime = new Date(minimumTimestamp + timeSinceStart).toString()
   return (
-    <div className="bg-zinc-200 px-2 py-4">
+    <div className="bg-zinc-200 px-2 py-4 w-full">
       <Progress value={(100 * timeSinceStart) / totalDuration} />
       <div className="flex flex-row pt-4">
         <div>
@@ -24,7 +24,9 @@ export default function ProgressbarComponent({
         <div className="flex-grow"></div>
         <div>
           <p>{`${totalSigs} signatures`}</p>
-          <p>{`${Math.round(totalSigs / totalhours)} signatures per hour`}</p>
+          <p>{`${Math.round(
+            totalSigs / (totalhours == 0 ? 1 : totalhours)
+          )} signatures per hour`}</p>
         </div>
       </div>
     </div>
