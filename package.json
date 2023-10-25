@@ -10,7 +10,7 @@
     "responsesjson": "ts-node -r tsconfig-paths/register ./src/lib/dataUtils/responses_mapper.ts",
     "citiesjson": "ts-node -r tsconfig-paths/register ./src/lib/dataUtils/cities_mapper.ts",
     "coordstoresponses": "ts-node -r tsconfig-paths/register ./src/lib/dataUtils/addcoordstoresponses.ts",
-    "prepare": "npm run responsesjson && npm run citiesjson && npm run coordstoresponses"
+    "preparelocal": "npm run responsesjson && npm run citiesjson && npm run coordstoresponses"
   },
   "dependencies": {
     "@radix-ui/react-progress": "^1.0.3",
